@@ -1,0 +1,20 @@
+#!name=Skip Proxy And Real-IP Lists
+#!desc=跳过部分应用的代理检测（深度优化银行及政务版）
+
+[Rule]
+# 屏蔽农行某些用于追踪检测的特定接口
+DOMAIN,msmp.abchina.com.cn,REJECT
+
+[General]
+# > 跳过代理 (skip-proxy)
+# 在此处添加银行、金融支付、政务系统域名，使其完全绕过 Loon 的处理内核
+skip-proxy = %APPEND% *.icbc.com.cn, *.abchina.com, *.abchina.com.cn, *.boc.cn, *.ccb.com, *.bankcomm.com, *.psbc.com, *.cmbchina.com, *.cmburl.cn, *.spdb.com.cn, *.cmbc.com.cn, *.pingan.com.cn, *.pingan.com, *.cib.com.cn, *.citicbank.com, *.cebbank.com, *.hxb.com.cn, *.cgbchina.com.cn, *.czbank.com, *.cbhb.com.cn, *.hfbank.com.cn, *.srcb.com, *.bankofbeijing.com.cn, *.bankofshanghai.com, *.unionpay.com, *.95516.com, *.95599.cn, *.95559.com.cn, *.95555.com.cn, *.gov.cn, *.12333.gov.cn, *.122.gov.cn, *.chinatax.gov.cn, *.pbcdci.cn, *.sgcc.com.cn, *.12306.cn, *.12306.com, www.baidu.com, wxh.wo.cn, gate.lagou.com, www.shanbay.com, id6.me, www.163.com
+
+# > 强制真实 IP (always-real-ip)
+# 防止 Fake-IP 导致的 DNS 记录异常，解决银行 App 登录超时或环境风险提示
+always-real-ip = %APPEND% *.icbc.com.cn, *.abchina.com, *.abchina.com.cn, *.boc.cn, *.ccb.com, *.bankcomm.com, *.psbc.com, *.cmbchina.com, *.cmburl.cn, *.unionpay.com, *.95516.com, *.gov.cn, *.pbcdci.cn, *.12306.cn, easy-login.10099.com.cn, *-update.xoyocdn.com, id6.me, open.e.189.cn
+
+[MitM]
+# 必须显式禁止 MitM (中间人解密)，否则银行检测到证书被篡改会直接闪退或报错
+# 这里的域名必须以 - 开头
+hostname = %APPEND% -*.icbc.com.cn, -*.abchina.com, -*.abchina.com.cn, -*.boc.cn, -*.ccb.com, -*.bankcomm.com, -*.psbc.com, -*.cmbchina.com, -*.cmburl.cn, -*.spdb.com.cn, -*.cmbc.com.cn, -*.pingan.com.cn, -*.pingan.com, -*.cib.com.cn, -*.citicbank.com, -*.cebbank.com, -*.hxb.com.cn, -*.cgbchina.com.cn, -*.unionpay.com, -*.95516.com, -*.gov.cn, -*.pbcdci.cn, -*.12306.cn
