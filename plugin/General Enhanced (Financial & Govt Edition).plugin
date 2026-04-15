@@ -1,0 +1,24 @@
+#!name=🍟 Fries: 🌐 General Enhanced (Bank & Govt Optimized)
+#!desc=(📱 iOS版) 整合版：跳过代理、返回真实IP、禁止 MitM。深度优化：工建招信平五大行、银联、数字人民币及政府政务 App。
+#!author=VirgilClyne原作 USXS修改
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bypass.png
+#!category=🍟 Fries
+
+[General]
+# > 跳过代理 (skip-proxy)
+# 整合了你提供的所有域名，并使用了通配符覆盖。
+# 重点涵盖：工行、建行、招行、中信、平安、农行、邮储、银联及 .gov.cn
+skip-proxy = %APPEND% *.icbc.com.cn, *.ccb.com, *.cmbchina.com, *.cmburl.cn, *.citicbank.com, *.pingan.com, *.pingan.com.cn, *.abchina.com, *.abchina.com.cn, *.boc.cn, *.bankcomm.com, *.psbc.com, *.unionpay.com, *.95516.com, *.gov.cn, *.pbcdci.cn, *.12306.cn, *.122.gov.cn, *.12333.gov.cn, *.sgcc.com.cn, www.baidu.com, wxh.wo.cn, gate.lagou.com, www.shanbay.com, id6.me, www.163.com, passenger.t3go.cn, e.crashlytics.com, localhost, *.local, 10.0.0.0/8, 127.0.0.1/32, 172.16.0.0/12, 192.168.0.0/16
+
+# > 强制真实 IP (always-real-ip)
+# 解决银行检测到 198.18.x.x 这种虚拟 IP 时报错的问题
+always-real-ip = %APPEND% *.icbc.com.cn, *.ccb.com, *.cmbchina.com, *.cmburl.cn, *.citicbank.com, *.pingan.com, *.pingan.com.cn, *.abchina.com, *.abchina.com.cn, *.boc.cn, *.bankcomm.com, *.psbc.com, *.unionpay.com, *.95516.com, *.gov.cn, *.pbcdci.cn, *.12306.cn, easy-login.10099.com.cn, *-update.xoyocdn.com, id6.me, open.e.189.cn
+
+[Rule]
+# 屏蔽特定银行追踪/广告接口，防止某些 App 启动时的检测包
+DOMAIN,msmp.abchina.com.cn,REJECT
+
+[MitM]
+# 关键部分：禁止对银行和政府域名进行证书解密（MitM）
+# 即使跳过了代理，如果 MitM 开启了这些域名的解析，App 依然会检测到证书错误
+hostname = %APPEND% -*.icbc.com.cn, -*.ccb.com, -*.cmbchina.com, -*.cmburl.cn, -*.citicbank.com, -*.pingan.com, -*.pingan.com.cn, -*.abchina.com, -*.abchina.com.cn, -*.boc.cn, -*.bankcomm.com, -*.psbc.com, -*.unionpay.com, -*.95516.com, -*.gov.cn, -*.pbcdci.cn, -*.12306.cn, -*.122.gov.cn, -*.12333.gov.cn, -*.sgcc.com.cn, -gateway.icloud.com, -gateway.icloud.com.cn, -weather-data.apple.com, -buy.itunes.apple.com, -ios.chat.openai.com
